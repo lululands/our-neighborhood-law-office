@@ -1,0 +1,2 @@
+import type { MetadataRoute } from 'next';import { articles } from './content';export default function sitemap():MetadataRoute.Sitemap{return [{url:'https://our-neighborhood-law.example',lastModified:new Date(),changeFrequency:'weekly',priority:1},...articles.map(a=>({url:`https://our-neighborhood-law.example/posts/${a.id}`,lastModified:new Date(a.date.replaceAll('.','-')),changeFrequency:'monthly' as const,priority:.8}))]}
+
