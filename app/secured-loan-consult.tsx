@@ -1,3 +1,18 @@
 'use client';
 import { useState } from 'react';
-export default function SecuredLoanConsult(){const [opened,setOpened]=useState(false);return <section id="recovery-economy-form" className="secured-loan"><p className="eyebrow">회생경제 정보</p><h2>상담 신청 전,<br/>상환 계획부터 확인하세요.</h2><p>담보 종류·소유 형태·기존 대출과 상환 부담을 먼저 정리해 보세요. 아래 버튼을 누른 뒤에만 제공된 외부 상담폼이 열립니다.</p>{!opened?<button type="button" className="primary" onClick={()=>setOpened(true)}>생활 금융 상담폼 열기</button>:<div className="secured-loan-frame"><p><strong>외부 상담폼 안내</strong> 입력한 정보는 appu.kr 상담폼으로 직접 전달됩니다. 개인정보 처리방침과 실제 계약 조건은 상담 전 직접 확인해 주세요. 금리·한도·승인 여부는 보장되지 않습니다.</p><iframe id="adwriteform" name="adwriteform" src="https://appu.kr/?i=12539431&t=o&f=o" title="생활 금융 외부 상담폼" width="100%" height="800" frameBorder="0" scrolling="no" marginHeight={0} marginWidth={0}/></div>}</section>}
+
+const officialShinhyupGuide='https://www.cu.co.kr/cu/ad/inrstCmpr/selectMrtggLonList.do';
+
+export default function SecuredLoanConsult(){
+  const [opened,setOpened]=useState(false);
+  return <section id="recovery-economy-form" className="secured-loan">
+    <p className="eyebrow">회생경제 정보</p>
+    <h2>상담 신청 전,<br/>상환 계획부터 확인하세요.</h2>
+    <p>담보 종류·소유 형태·기존 대출과 상환 부담을 먼저 정리해 보세요. 신협 공식 안내를 확인한 뒤, 필요하면 아래 상담폼을 열 수 있습니다.</p>
+    <div className="secured-loan-actions">
+      <a className="secondary" href={officialShinhyupGuide} target="_blank" rel="noopener noreferrer">신협 담보대출 안내 보기</a>
+      {!opened&&<button type="button" className="primary" onClick={()=>setOpened(true)}>신협 담보대출 상담폼 열기</button>}
+    </div>
+    {opened&&<div className="secured-loan-frame"><p><strong>신협 담보대출 상담폼 안내</strong> 입력한 정보는 제공된 appu.kr 상담폼으로 직접 전달됩니다. 이 폼은 신협 공식 홈페이지가 아니며, 개인정보 처리방침과 실제 계약 조건은 상담 전 직접 확인해 주세요. 금리·한도·승인 여부는 보장되지 않습니다.</p><iframe id="adwriteform" name="adwriteform" src="https://appu.kr/?i=12539431&t=o&f=o" title="신협 담보대출 외부 상담폼" width="100%" height="800" frameBorder="0" scrolling="no" marginHeight={0} marginWidth={0}/></div>}
+  </section>;
+}
