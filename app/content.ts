@@ -48,3 +48,33 @@ const bigCityArticles=districtSeeds.flatMap(seed=>[
 ]);
 const incheonRehabilitation=articles.filter(a=>a.region==='인천'&&a.category==='이혼전문변호사'&&a.district&&a.dongs).map((a,index)=>makeDistrictArticle({slug:`incheon-${index+1}`,region:'인천',district:a.district!,dongs:a.dongs!},'개인회생',`rehab-incheon-${index+1}`));
 articles.unshift(...bigCityArticles,...incheonRehabilitation);
+
+
+// 행정구가 없는 경기 도시는 시 단위 글과 동 단위 키워드로 구성합니다.
+const sharedLegalHeroImage='https://our-neighborhood-law-office.netlify.app/images/gyeonggi-legal-consult-hero.svg';
+articles.forEach(article=>{if(article.id.startsWith('rehab-')||article.id.startsWith('divorce-'))article.image=sharedLegalHeroImage;});
+
+const cityAreaSeeds:DistrictSeed[]=[
+  {slug:'gwacheon',region:'경기',district:'과천시',dongs:['중앙동','갈현동','별양동','부림동','과천동','문원동']},
+  {slug:'namyangju',region:'경기',district:'남양주시',dongs:['와부읍','진접읍','화도읍','진건읍','오남읍','퇴계원읍','별내면','수동면','조안면','호평동','평내동','금곡동','양정동','다산1동','다산2동','별내동']},
+  {slug:'guri',region:'경기',district:'구리시',dongs:['갈매동','동구동','인창동','교문1동','교문2동','수택1동','수택2동','수택3동']},
+  {slug:'uijeongbu',region:'경기',district:'의정부시',dongs:['의정부1동','의정부2동','의정부3동','호원1동','호원2동','장암동','신곡1동','신곡2동','송산1동','송산2동','송산3동','자금동','가능동','흥선동']},
+  {slug:'gwangmyeong',region:'경기',district:'광명시',dongs:['광명1동','광명2동','광명3동','광명4동','광명5동','광명6동','광명7동','철산1동','철산2동','철산3동','철산4동','하안1동','하안2동','하안3동','하안4동','소하1동','소하2동','학온동']},
+  {slug:'siheung',region:'경기',district:'시흥시',dongs:['대야동','신천동','신현동','은행동','매화동','목감동','군자동','정왕1동','정왕2동','정왕3동','정왕4동','배곧1동','배곧2동','과림동','연성동','능곡동','월곶동','장곡동']},
+];
+
+const makeCityAreaArticle=(seed:DistrictSeed,topic:'개인회생'|'이혼전문변호사',id:string):Article=>{
+  const isDivorce=topic==='이혼전문변호사';
+  const base=makeDistrictArticle(seed,topic,id);
+  const dongTags=seed.dongs.flatMap(d=>isDivorce?[d+' 이혼전문변호사',d+' 이혼소송변호사',d+' 재산분할 상담']:[d+' 개인회생',d+' 개인회생상담',d+' 개인파산 상담']);
+  const information=isDivorce?
+    `\n\n이혼소송을 고려한다면 협의이혼 가능성, 소송 진행 시 필요한 사실관계, 재산분할·양육비·면접교섭의 쟁점을 나누어 확인하는 것이 좋습니다. 혼인 기간 중의 재산 형성 과정, 부채의 사용처, 자녀 양육의 실제 분담을 보여 줄 수 있는 자료를 정리해 두세요.\n\n상담 전에는 재산 목록과 등기·계좌 자료, 소득·지출 내역, 자녀 교육·돌봄 관련 기록을 날짜 순으로 준비하면 도움이 됩니다. 아래 동별 키워드는 ${seed.district}에서 지역 정보를 찾을 때 사용할 수 있는 검색어이며, 구체적인 법률 판단은 개별 사정을 바탕으로 확인해야 합니다.`:
+    `\n\n개인회생과 개인파산은 채무 규모만이 아니라 계속적인 소득, 보유 재산, 부양가족, 최근 채무 발생 경위 등을 함께 살펴보게 됩니다. 카드·대출·보증 채무를 채권자별로 정리하고 월 소득과 고정지출을 구분하면 변제 가능성을 검토하기 수월합니다.\n\n상담 전에는 신분·소득·재산·채무 서류, 임대차 자료, 부양가족과 지출 자료를 준비해 보세요. 아래 동별 키워드는 ${seed.district} 개인회생·개인파산 정보를 찾을 때 사용할 수 있는 검색어이며, 실제 절차와 필요 서류는 상황에 따라 달라질 수 있습니다.`;
+  return {...base,image:sharedLegalHeroImage,tags:[...base.tags,...dongTags],body:base.body+information};
+};
+
+const cityAreaArticles=cityAreaSeeds.flatMap(seed=>[
+  makeCityAreaArticle(seed,'개인회생','rehab-'+seed.slug),
+  makeCityAreaArticle(seed,'이혼전문변호사','divorce-'+seed.slug),
+]);
+articles.unshift(...cityAreaArticles);
