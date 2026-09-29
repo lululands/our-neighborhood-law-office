@@ -3,14 +3,11 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { adminRegions, categories } from '../content';
 
-type Identity={currentUser:()=>unknown;open:(mode?:string)=>void;on:(event:string,callback:()=>void)=>void};
-declare global { interface Window { netlifyIdentity?: Identity } }
-
 export default function Admin(){
  const [ready,setReady]=useState(false); const [signedIn,setSignedIn]=useState(false);
  const [district,setDistrict]=useState('도봉구'); const [category,setCategory]=useState('개인회생');
  const [tags,setTags]=useState<string[]>(['']); const [imagePreview,setImagePreview]=useState<string|null>(null); const [done,setDone]=useState(false);
- useEffect(()=>{const script=document.createElement('script');script.src='https://identity.netlify.com/v1/netlify-identity-widget.js';script.async=true;script.onload=()=>{const identity=window.netlifyIdentity;setSignedIn(Boolean(identity?.currentUser()));identity?.on('login',()=>setSignedIn(true));identity?.on('logout',()=>setSignedIn(false));setReady(true)};script.onerror=()=>setReady(true);document.body.appendChild(script);return()=>script.remove()},[]);
+ useEffect(()=>{const check=()=>{const identity=window.netlifyIdentity;if(identity){setSignedIn(Boolean(identity.currentUser()));identity.on('login',()=>setSignedIn(true));identity.on('logout',()=>setSignedIn(false));setReady(true);return true}return false};if(check())return;const timer=window.setInterval(()=>{if(check())window.clearInterval(timer)},100);return()=>window.clearInterval(timer)},[]);
  const title=`${district} ${category} 안내 - 절차와 준비 서류`;
  const updateTag=(i:number,value:string)=>setTags(tags.map((tag,index)=>index===i?value:tag));
  if(!ready)return <main><header className="site-header"><Link className="brand" href="/"><span>우리동네</span> 법률사무소</Link></header><section className="admin"><p>관리자 권한을 확인하고 있습니다.</p></section></main>;
