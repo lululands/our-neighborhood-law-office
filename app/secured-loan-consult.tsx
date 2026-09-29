@@ -1,12 +1,3 @@
 'use client';
 import { useState } from 'react';
-
-export default function SecuredLoanConsult(){
-  const [opened,setOpened]=useState(false);
-  return <section id="secured-loan" className="secured-loan">
-    <p className="eyebrow">추가담보대출 정보</p>
-    <h2>추가담보대출이 필요하다면<br/>상환 가능성부터 확인하세요.</h2>
-    <p>담보가 있다고 해도 금리·한도·상환방식과 기존 채무를 함께 확인해야 합니다. 이 영역은 법률상담과 별도의 외부 금융 상담 폼으로 연결됩니다.</p>
-    {!opened ? <button type="button" className="primary" onClick={()=>setOpened(true)}>추가담보대출 상담폼 열기</button> : <div className="secured-loan-frame"><p><strong>외부 상담폼 안내</strong> 입력한 정보는 appu.kr 상담폼으로 직접 전달됩니다. 조건·한도·금리는 상담 후 확인해 주세요.</p><iframe id="adwriteform" name="adwriteform" src="https://appu.kr/?i=12539431&t=o&f=o" title="추가담보대출 외부 상담폼" width="100%" height="800" frameBorder="0" scrolling="no" marginHeight={0} marginWidth={0}/></div>}
-  </section>;
-}
+export default function SecuredLoanConsult(){const [opened,setOpened]=useState(false);return <section id="recovery-economy-form" className="secured-loan"><p className="eyebrow">회생경제 정보</p><h2>상담 신청 전,<br/>상환 계획부터 확인하세요.</h2><p>담보 종류·소유 형태·기존 대출과 상환 부담을 먼저 정리해 보세요. 아래 버튼을 누른 뒤에만 제공된 외부 상담폼이 열립니다.</p>{!opened?<button type="button" className="primary" onClick={()=>setOpened(true)}>생활 금융 상담폼 열기</button>:<div className="secured-loan-frame"><p><strong>외부 상담폼 안내</strong> 입력한 정보는 appu.kr 상담폼으로 직접 전달됩니다. 개인정보 처리방침과 실제 계약 조건은 상담 전 직접 확인해 주세요. 금리·한도·승인 여부는 보장되지 않습니다.</p><iframe id="adwriteform" name="adwriteform" src="https://appu.kr/?i=12539431&t=o&f=o" title="생활 금융 외부 상담폼" width="100%" height="800" frameBorder="0" scrolling="no" marginHeight={0} marginWidth={0}/></div>}</section>}
