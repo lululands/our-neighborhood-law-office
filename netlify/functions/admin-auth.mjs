@@ -1,5 +1,9 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 
+const json = (body, status = 200, headers = {}) => new Response(JSON.stringify(body), {
+  status,
+  headers: { 'Content-Type': 'application/json', ...headers }
+});
 const clear = 'admin_session=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Strict';
 const valid = (cookie, password) => {
   const value = cookie.split(';').map(x => x.trim()).find(x => x.startsWith('admin_session='))?.slice(14);
@@ -11,7 +15,7 @@ const valid = (cookie, password) => {
 };
 
 export default async (request) => {
-  if (request.method === 'POST') return { statusCode: 200, headers: { 'Set-Cookie': clear, 'Content-Type': 'application/json' }, body: JSON.stringify({ ok: true }) };
+  if (request.method === 'POST') return json({ ok: true }, 200, { 'Set-Cookie': clear });
   const ok = valid(request.headers.get('cookie') || '', process.env.ADMIN_PASSWORD);
-  return { statusCode: ok ? 200 : 401, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ok }) };
+  return json({ ok }, ok ? 200 : 401);
 };
