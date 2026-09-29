@@ -2,11 +2,16 @@
 
 import { useEffect } from 'react';
 
+export type NetlifyIdentity = {
+  init: () => void;
+  currentUser: () => unknown;
+  open: (mode?: string) => void;
+  on: (event: string, callback: () => void) => void;
+};
+
 declare global {
   interface Window {
-    netlifyIdentity?: {
-      init: () => void;
-    };
+    netlifyIdentity?: NetlifyIdentity;
   }
 }
 
