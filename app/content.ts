@@ -70,7 +70,7 @@ const makeCityAreaArticle=(seed:DistrictSeed,topic:'개인회생'|'이혼전문�
   const information=isDivorce?
     `\n\n이혼소송을 고려한다면 협의이혼 가능성, 소송 진행 시 필요한 사실관계, 재산분할·양육비·면접교섭의 쟁점을 나누어 확인하는 것이 좋습니다. 혼인 기간 중의 재산 형성 과정, 부채의 사용처, 자녀 양육의 실제 분담을 보여 줄 수 있는 자료를 정리해 두세요.\n\n상담 전에는 재산 목록과 등기·계좌 자료, 소득·지출 내역, 자녀 교육·돌봄 관련 기록을 날짜 순으로 준비하면 도움이 됩니다. 아래 동별 키워드는 ${seed.district}에서 지역 정보를 찾을 때 사용할 수 있는 검색어이며, 구체적인 법률 판단은 개별 사정을 바탕으로 확인해야 합니다.`:
     `\n\n개인회생과 개인파산은 채무 규모만이 아니라 계속적인 소득, 보유 재산, 부양가족, 최근 채무 발생 경위 등을 함께 살펴보게 됩니다. 카드·대출·보증 채무를 채권자별로 정리하고 월 소득과 고정지출을 구분하면 변제 가능성을 검토하기 수월합니다.\n\n상담 전에는 신분·소득·재산·채무 서류, 임대차 자료, 부양가족과 지출 자료를 준비해 보세요. 아래 동별 키워드는 ${seed.district} 개인회생·개인파산 정보를 찾을 때 사용할 수 있는 검색어이며, 실제 절차와 필요 서류는 상황에 따라 달라질 수 있습니다.`;
-  return {...base,image:sharedLegalHeroImage,tags:[...base.tags,...dongTags],body:base.body+information};
+  return {...base,image:sharedLegalHeroImage,tags:[...(base.tags||[]),...dongTags],body:base.body+information};
 };
 
 const cityAreaArticles=cityAreaSeeds.flatMap(seed=>[
