@@ -49,3 +49,6 @@
 .quick-consult a.quick-debt,.quick-consult a.quick-divorce{color:#fff!important;text-decoration:none}
 .quick-consult a.quick-debt:hover{background:#0d302d}
 .quick-consult a.quick-divorce:hover{background:#84372d}
+
+
+.publish-feedback{margin-top:14px}.publish-progress{margin:0;color:#285d51;font-size:14px;font-weight:700}.admin-success>div{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.new-post{border:1px solid #18313a;background:#fff;color:#18313a;padding:10px 12px;font:inherit;font-size:13px;font-weight:800;cursor:pointer;border-radius:3px}.new-post:hover{background:#eef2ee}
