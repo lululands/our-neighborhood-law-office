@@ -133,3 +133,24 @@ const seoulDistrictArticles=seoulDistrictSeeds.flatMap(seed=>[
   makeCityAreaArticle(seed,'이혼전문변호사','divorce-'+seed.slug),
 ]);
 articles.unshift(...seoulDistrictArticles);
+
+
+// 서울 25구 개인파산·면책 안내는 개인파산 카테고리로 별도 발행합니다.
+const makeSeoulBankruptcyArticle=(seed:DistrictSeed):Article=>{
+  const dongTags=seed.dongs.flatMap(d=>[d+' 개인파산',d+' 개인파산상담',d+' 면책 상담']);
+  return {
+    id:'bankruptcy-'+seed.slug,
+    title:seed.district+' 개인파산·면책 상담 전 확인할 채무·재산 자료',
+    category:'개인파산',
+    region:'서울',
+    district:seed.district,
+    dongs:seed.dongs,
+    tags:[seed.district+' 개인파산',seed.district+' 개인파산상담',seed.district+' 개인파산신청',seed.district+' 면책',seed.district+' 채무상담',...dongTags],
+    date:'2026.09.29',
+    image:sharedLegalHeroImage,
+    excerpt:seed.district+' 개인파산과 면책 상담 전 채무·재산·소득·가족관계 자료를 정리하는 방법을 안내합니다.',
+    body:seed.district+'에서 개인파산과 면책 상담을 검토할 때에는 현재 채무의 종류와 발생 경위, 보유 재산, 소득 활동 가능성, 부양가족 상황을 함께 정리하는 것이 중요합니다. 개인파산·면책 가능 여부와 필요한 자료는 개별 사정에 따라 달라질 수 있습니다.\n\n채권자별 채무 내역, 대출·카드 사용 내역, 최근 재산 변동 자료, 임대차 관계, 가족관계·소득 관련 서류를 준비하면 현재 상황을 설명하기 수월합니다. 재산 처분이나 최근의 채무 발생과 관련된 사실도 날짜 순으로 정리해 두는 것이 좋습니다.\n\n개인파산 절차에서는 파산신청과 면책 심사에서 확인되는 항목이 있을 수 있으므로, 사실과 다른 내용 없이 자료를 정확히 정리해야 합니다. 아래 동별 표와 태그는 '+seed.district+' 개인파산·면책 정보를 찾을 때 활용할 수 있는 키워드이며, 실제 절차와 법률 판단은 상담을 통해 확인해야 합니다.'
+  };
+};
+const seoulBankruptcyArticles=seoulDistrictSeeds.map(makeSeoulBankruptcyArticle);
+articles.unshift(...seoulBankruptcyArticles);
