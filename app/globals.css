@@ -23,3 +23,11 @@
 .debt-modal-external{display:block;margin-top:13px;text-align:center;color:#172c36;font-size:13px;font-weight:800}
 .quick-debt{border:0;cursor:pointer;font:inherit}
 @media(max-width:600px){.debt-modal-backdrop{padding:12px}.debt-modal{padding:18px}.debt-modal-head h2{font-size:22px}.debt-modal-frame{height:60vh}}
+
+
+/* 상담 카드의 설명·버튼 높이를 통일해 좌우 칸을 정갈하게 정렬 */
+.consult-grid article{display:flex;flex-direction:column}
+.consult-grid p{min-height:82px;margin:0 0 20px}
+.consult-grid article div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:auto}
+.consult-grid article div>a,.consult-grid article div>button{box-sizing:border-box;min-height:48px;width:100%;display:inline-flex;align-items:center;justify-content:center;text-align:center;line-height:1.3}
+@media(max-width:720px){.consult-grid p{min-height:0}.consult-grid article div{display:flex}.consult-grid article div>a,.consult-grid article div>button{width:auto;min-height:44px}}
