@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function About(){return <main className="post"><Link className="breadcrumbs" href="/">홈</Link><h1>사이트 안내</h1><div className="post-content"><p>우리동네 법률사무소는 지역별 생활 법률 정보를 알기 쉽게 제공하는 정보 사이트입니다.</p><p>게시된 내용은 일반적인 정보이며, 개별 사건에 대한 법률 자문은 아닙니다.</p></div></main>}
