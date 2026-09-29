@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">개인회생과 이혼 법률상담 안내</title>
+  <desc id="desc">채무 부담과 이혼 분쟁의 법률 상담을 안내하는 우리동네 법률사무소 대표 이미지</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0c2635"/><stop offset=".58" stop-color="#173f4b"/><stop offset="1" stop-color="#a97945"/></linearGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7f1e7"/><stop offset="1" stop-color="#dfc69e"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-opacity=".28"/></filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <path d="M1060 0H1600V900H1230C1290 660 1200 410 1060 0Z" fill="#0b1e2a" opacity=".48"/>
+  <circle cx="1450" cy="140" r="260" fill="#d6aa69" opacity=".16"/>
+  <g transform="translate(1000 180)" filter="url(#shadow)">
+    <rect x="70" y="105" width="380" height="470" rx="10" fill="#071923" opacity=".45"/>
+    <rect x="0" y="0" width="390" height="500" rx="12" fill="url(#paper)"/>
+    <rect x="44" y="56" width="210" height="12" rx="6" fill="#a87942" opacity=".8"/>
+    <rect x="44" y="104" width="290" height="8" rx="4" fill="#6b7371" opacity=".55"/>
+    <rect x="44" y="132" width="255" height="8" rx="4" fill="#6b7371" opacity=".45"/>
+    <rect x="44" y="207" width="300" height="128" rx="8" fill="#143746" opacity=".95"/>
+    <text x="72" y="262" fill="#f7efdf" font-family="Pretendard, Arial, sans-serif" font-size="25" font-weight="700">상담 전 준비 체크</text>
+    <text x="72" y="300" fill="#ead7b7" font-family="Pretendard, Arial, sans-serif" font-size="19">채무 · 소득 · 재산 · 양육 자료</text>
+    <rect x="44" y="376" width="240" height="8" rx="4" fill="#6b7371" opacity=".46"/>
+    <rect x="44" y="404" width="286" height="8" rx="4" fill="#6b7371" opacity=".38"/>
+  </g>
+  <g transform="translate(1285 600)" fill="none" stroke="#d4a35e" stroke-width="12" stroke-linecap="round">
+    <path d="M0 180H250M125 0V180M55 35H195M38 35L0 112H76L38 35M212 35L174 112H250L212 35"/>
+  </g>
+  <g font-family="Pretendard, 'Noto Sans KR', Arial, sans-serif">
+    <text x="120" y="165" fill="#eab26c" font-size="27" font-weight="800" letter-spacing="4">우리동네 법률사무소 · 지역 법률정보</text>
+    <text x="120" y="305" fill="#fffaf0" font-size="75" font-weight="800" letter-spacing="-4">채무 부담과 이혼 분쟁,</text>
+    <text x="120" y="400" fill="#fffaf0" font-size="75" font-weight="800" letter-spacing="-4">정리의 첫걸음은 상담입니다.</text>
+    <rect x="120" y="465" width="150" height="5" fill="#e9ad62"/>
+    <text x="120" y="540" fill="#d7e1df" font-size="31" font-weight="500">개인회생 · 개인파산 · 이혼소송 · 재산분할 · 양육비</text>
+    <text x="120" y="622" fill="#f3d29f" font-size="34" font-weight="800">개인회생 상담, 현재 상황부터 차분히 확인하세요.</text>
+    <text x="120" y="690" fill="#d7e1df" font-size="24">채무 · 소득 · 재산 · 부양가족 자료를 함께 살펴봅니다.</text>
+    <rect x="120" y="748" width="365" height="76" rx="4" fill="#f5e8d2"/>
+    <text x="150" y="798" fill="#143746" font-size="28" font-weight="800">지역별 상담 정보 바로 확인하기</text>
+  </g>
+</svg>
