@@ -41,3 +41,5 @@
 .published-list strong{line-height:1.45;letter-spacing:-.4px}
 .published-list small{margin-top:auto;color:#285d51;font-weight:700}
 @media(max-width:720px){.published-list{padding:28px}.published-list>div{grid-template-columns:1fr}.published-list div>a{min-height:0}}
+
+.admin-success strong,.admin-success span{display:block}.admin-success span{margin:5px 0 10px;font-size:13px;color:#52636a}.admin-success a{font-weight:800}
