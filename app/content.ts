@@ -78,3 +78,23 @@ const cityAreaArticles=cityAreaSeeds.flatMap(seed=>[
   makeCityAreaArticle(seed,'이혼전문변호사','divorce-'+seed.slug),
 ]);
 articles.unshift(...cityAreaArticles);
+
+
+// 추가 경기 시별 안내: 행정구 대신 실제 동·읍·면 단위 키워드를 사용합니다.
+const additionalCityAreaSeeds:DistrictSeed[]=[
+  {slug:'gimpo',region:'경기',district:'김포시',dongs:['통진읍','고촌읍','양촌읍','대곶면','월곶면','하성면','김포본동','장기본동','사우동','풍무동','장기동','구래동','마산동','운양동']},
+  {slug:'gunpo',region:'경기',district:'군포시',dongs:['군포1동','군포2동','산본1동','산본2동','금정동','재궁동','오금동','수리동','궁내동','광정동','대야동','송부동']},
+  {slug:'uiwang',region:'경기',district:'의왕시',dongs:['고천동','부곡동','오전동','내손1동','내손2동','청계동']},
+  {slug:'hanam',region:'경기',district:'하남시',dongs:['천현동','신장1동','신장2동','덕풍1동','덕풍2동','덕풍3동','미사1동','미사2동','감북동','감일동','위례동','춘궁동']},
+];
+
+const additionalCityArticles=additionalCityAreaSeeds.flatMap(seed=>[
+  makeCityAreaArticle(seed,'개인회생','rehab-'+seed.slug),
+  makeCityAreaArticle(seed,'이혼전문변호사','divorce-'+seed.slug),
+]).map(article=>({
+  ...article,
+  body:article.body+(article.category.includes('이혼')
+    ? '\n\n상담에서는 당장 필요한 조치와 중장기적으로 확인할 사항을 구분해 보는 것이 좋습니다. 감정적 대화 내용보다는 재산·소득·자녀 양육에 관한 객관 자료를 우선 정리하고, 상대방과의 협의 과정도 날짜별로 기록해 두면 사실관계를 설명하는 데 도움이 됩니다.'
+    : '\n\n채무 조정 방안을 비교할 때에는 현재 연체 여부와 월별 상환 가능액, 필수 생활비를 함께 검토해야 합니다. 단순히 채무 총액만 보지 말고 소득의 지속 가능성, 담보·보증 채무 유무, 재산 처분 가능성도 정리해 상담에서 빠짐없이 확인하세요.')
+}));
+articles.unshift(...additionalCityArticles);
