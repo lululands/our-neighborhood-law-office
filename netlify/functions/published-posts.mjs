@@ -9,10 +9,10 @@ export default async request => {
   if (request.method !== 'GET') return json({ ok: false }, 405);
 
   try {
-    const store = getStore('law-office-posts');
+    const store = getStore({ name: 'law-office-posts', consistency: 'strong' });
     const { blobs } = await store.list({ prefix: 'post/' });
     const records = await Promise.all(blobs.slice(-40).map(async ({ key }) => {
-      const post = await store.get(key, { type: 'json', consistency: 'strong' });
+      const post = await store.get(key, { type: 'json' });
       return post ? {
         id: String(post.id),
         title: String(post.title || ''),
