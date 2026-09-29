@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function Privacy(){return <main className="post"><Link className="breadcrumbs" href="/">홈</Link><h1>개인정보처리방침</h1><div className="post-content"><p>상담 서비스는 외부 상담 페이지에서 제공될 수 있으며, 해당 서비스의 개인정보처리방침이 적용됩니다.</p><p>사이트 운영자는 방문자의 개인정보를 별도로 수집하지 않습니다.</p></div></main>}
