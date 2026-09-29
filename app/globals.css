@@ -67,3 +67,7 @@
 .article-consult-divorce .article-consult-fields a{background:#a34738}
 .article-consult small{display:block;margin-top:12px;color:#647078;font-size:11px}
 @media(max-width:520px){.article-consult{padding:18px}.article-consult-copy strong{font-size:18px}.article-consult-fields{grid-template-columns:1fr;gap:10px}.article-consult-fields a{grid-column:auto}}
+
+
+/* 회생경제: 제공된 외부 상담폼은 선택 시에만 표시 */
+.secured-loan{margin:42px 0 0;padding:30px;background:#f4f0e8;border:1px solid #d9d0c2}.secured-loan h2{margin:0;font-size:clamp(25px,4vw,36px);letter-spacing:-2px;line-height:1.25}.secured-loan>p:not(.eyebrow){max-width:680px;margin:18px 0 24px;color:#52636a;font-size:14px;line-height:1.75}.secured-loan-frame{margin-top:22px;padding:18px;background:#fff;border:1px solid #d8d3cb}.secured-loan-frame>p{margin:0 0 14px;color:#52636a;font-size:13px;line-height:1.65}.secured-loan-frame iframe{display:block;width:100%;height:800px;border:0;background:#fff}@media(max-width:520px){.secured-loan{padding:22px}.secured-loan-frame{padding:10px}}
