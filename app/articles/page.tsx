@@ -1,0 +1,3 @@
+import Link from 'next/link';
+import { articles } from '../content';
+export default function ArticlesPage(){return <main className="listing"><Link className="breadcrumbs" href="/">홈</Link><p className="eyebrow">RECENT ARTICLES</p><h1>전체 법률 정보</h1><div className="article-list">{articles.map(a=><Link className="article-row" href={`/posts/${a.id}`} key={a.id}><div><p>{a.region} · {a.category}</p><h3>{a.title}</h3></div><b>→</b></Link>)}</div></main>}
