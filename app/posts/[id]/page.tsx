@@ -33,6 +33,11 @@ export default async function Post({params}:{params:Promise<{id:string}>}){
       <p className="eyebrow">{label}{a.category}</p>
       <h1>{a.title}</h1>
       <p className="post-meta">발행일 {a.date} · 우리동네 법률사무소</p>
+      <section className={`article-consult ${isDivorce?'article-consult-divorce':'article-consult-rehab'}`}>
+        <div className="article-consult-copy"><p>빠른 상담 신청</p><strong>{isDivorce?'이혼·재산분할 상담을 바로 준비하세요.':'개인회생·개인파산 상담을 바로 준비하세요.'}</strong><span>{isDivorce?'재산분할·양육비·양육권 자료를 정리해 상담 폼에서 신청할 수 있습니다.':'채무·소득·재산·부양가족 정보를 정리해 상담 폼에서 신청할 수 있습니다.'}</span></div>
+        <div className="article-consult-fields"><label>성함<input type="text" placeholder="성함 입력" autoComplete="name"/></label><label>연락처<input type="tel" placeholder="010-0000-0000" autoComplete="tel"/></label><a href={consultUrl} target="_blank" rel="noopener noreferrer">{isDivorce?'이혼 상담 폼 열기':'회생 상담 폼 열기'}</a></div>
+        <small>상담 신청은 버튼을 눌러 연결되는 전용 입력 폼에서 최종 접수됩니다.</small>
+      </section>
       {a.image&&<section className="post-hero"><img src={a.image} alt={a.title+' 대표 이미지'}/><div><p>{a.region} {a.district||''} {a.category}</p><strong>{keyTitle}</strong><span>{keyCopy}</span><b>지역별 법률정보</b></div></section>}
       {a.tags&&<div className="article-tags">{a.tags.map(tag=><span key={tag}>#{tag}</span>)}</div>}
       <div className="post-content">{a.body.split('\n\n').map((p,i)=><p key={i}>{p}</p>)}</div>
