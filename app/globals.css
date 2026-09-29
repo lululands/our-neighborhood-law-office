@@ -31,3 +31,13 @@
 .consult-grid article div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:auto}
 .consult-grid article div>a,.consult-grid article div>button{box-sizing:border-box;min-height:48px;width:100%;display:inline-flex;align-items:center;justify-content:center;text-align:center;line-height:1.3}
 @media(max-width:720px){.consult-grid p{min-height:0}.consult-grid article div{display:flex}.consult-grid article div>a,.consult-grid article div>button{width:auto;min-height:44px}}
+
+
+.published-list{padding:32px max(10vw,28px);background:#edf2ef;border-top:1px solid #d6dfda;border-bottom:1px solid #d6dfda}
+.published-list>div{max-width:1040px;margin:12px auto 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.published-list>a{display:block}
+.published-list div>a{display:flex;min-height:124px;flex-direction:column;gap:7px;padding:18px;background:#fff;border:1px solid #cbd4cf;color:var(--ink);text-decoration:none}
+.published-list span,.published-list small{font-size:12px;color:var(--muted)}
+.published-list strong{line-height:1.45;letter-spacing:-.4px}
+.published-list small{margin-top:auto;color:#285d51;font-weight:700}
+@media(max-width:720px){.published-list{padding:28px}.published-list>div{grid-template-columns:1fr}.published-list div>a{min-height:0}}
