@@ -28,7 +28,7 @@ export default async function Post({params}:{params:Promise<{id:string}>}){
   const consultUrl=isDivorce?divorceConsultUrl:rehabilitationUrl;
   const consultText=isDivorce?'이혼 상담 폼 바로가기':'개인회생 상담 폼 바로가기';
   return <main>
-    <header className="site-header"><Link className="brand" href="/"><span className="brand-town">우리동네</span><span>법률사무소</span></Link><Link href="/articles">전체 글</Link></header>
+    <header className="site-header"><Link className="brand" href="/"><span className="brand-town"><img src="/images/town-tile-roof.svg" alt="" aria-hidden="true"/>우리동네</span><span>법률사무소</span></Link><Link href="/articles">전체 글</Link></header>
     {!isRecoveryEconomy&&<QuickConsult />}
     <article className="post">
       <p className="breadcrumbs">홈 / {a.region} / {a.category}</p>
