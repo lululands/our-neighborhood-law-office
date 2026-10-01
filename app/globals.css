@@ -83,3 +83,7 @@
 
 /* 실제 기와지붕 SVG를 우리동네 글자 바로 위에 표시 */
 .brand-town{padding-top:15px}.brand-town img{position:absolute;display:block;top:-1px;left:50%;width:50px;height:18px;transform:translateX(-50%);z-index:1}.brand-town:before,.brand-town:after{display:none}@media(max-width:520px){.brand-town{padding-top:13px}.brand-town img{width:44px;height:16px}}
+
+
+/* 종갓집처럼 기와지붕과 우리동네 글자를 위아래로 정렬 */
+.brand{align-items:center}.brand-town{position:relative;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:0;color:var(--coral);line-height:1.05;white-space:nowrap}.brand-town img{position:static;display:block;width:46px;height:16px;transform:none;margin:0 0 1px;flex:none}.brand-town:before,.brand-town:after{display:none}.brand>span:last-child{align-self:center}footer .brand-town img{filter:none}@media(max-width:520px){.brand-town img{width:42px;height:15px}}
