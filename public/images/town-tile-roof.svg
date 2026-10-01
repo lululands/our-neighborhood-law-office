@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 42" role="img" aria-label="기와지붕">
+  <g fill="none" stroke="#172c36" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 31C28 18 43 11 60 8c17 3 32 10 46 23" stroke-width="5"/>
+    <path d="M8 35c17-8 32-12 52-13 20 1 35 5 52 13" stroke-width="4"/>
+    <path d="M20 38c13-4 27-6 40-6s27 2 40 6" stroke-width="3"/>
+  </g>
+  <path d="M58 7l2-5 2 5" fill="none" stroke="#e8694c" stroke-width="3" stroke-linecap="round"/>
+</svg>
