@@ -35,3 +35,10 @@
   for = "/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+# 이전 이혼소송 주소는 현재 이혼전문변호사 분야로 연결합니다.
+[[redirects]]
+  from = "/category/divorce-lawsuit"
+  to = "/category/divorce-lawyer"
+  status = 301
+  force = true
