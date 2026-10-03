@@ -42,8 +42,25 @@ const makeDistrictArticle=(seed:DistrictSeed,topic:'개인회생'|'이혼전문�
   return {id,title,category:topic,region:seed.region,district:seed.district,dongs:seed.dongs,tags:[`${seed.district} ${topic}`,...keywords.map(k=>`${seed.district} ${k}`),...dongTags],date:'2026.09.29',excerpt,body};
 };
 
+const makeDistrictBankruptcyArticle=(seed:DistrictSeed,id:string):Article=>{
+  const dongTags=seed.dongs.flatMap(d=>[`${d} 개인파산`,`${d} 개인파산상담`,`${d} 면책 상담`]);
+  return {
+    id,
+    title:`${seed.district} 개인파산·면책 상담 전 확인할 채무·재산 자료`,
+    category:'개인파산',
+    region:seed.region,
+    district:seed.district,
+    dongs:seed.dongs,
+    tags:[`${seed.district} 개인파산`,`${seed.district} 개인파산상담`,`${seed.district} 개인파산신청`,`${seed.district} 면책`,`${seed.district} 채무상담`,...dongTags],
+    date:'2026.10.03',
+    excerpt:`${seed.district} 개인파산·면책 상담 전 채무·재산·소득·가족관계 자료를 정리하는 방법을 안내합니다.`,
+    body:`${seed.district}에서 개인파산과 면책을 알아볼 때에는 채무 총액뿐 아니라 현재 소득, 보유 재산, 가족의 부양 상황, 채무가 생긴 경위를 함께 정리하는 것이 중요합니다. 반복되는 상환과 생활비 부담으로 어려움을 겪고 있다면, 먼저 채권자별 채무와 월 지출을 객관적으로 확인해 보세요.\n\n상담 전에는 카드·대출·보증 채무 내역, 임대차 계약, 예금·보험·차량·부동산 등 재산 자료, 최근 소득·지출 자료를 가능한 범위에서 모아 두면 도움이 됩니다. 최근 재산 변동과 채무 발생 경위도 날짜 순으로 기록하면 빠진 사실 없이 설명하기 수월합니다.\n\n개인파산과 면책은 개인별 사정에 따라 검토되며, 결과나 진행 방법을 미리 단정할 수 없습니다. 사실과 다른 내용을 작성하거나 자료를 누락하기보다 현재 상황을 성실히 정리한 뒤 개별 상담에서 확인하세요. 아래 동별 표와 태그는 ${seed.district} 개인파산·면책 정보를 찾을 때 활용할 수 있는 키워드입니다.`
+  };
+};
+
 const bigCityArticles=districtSeeds.flatMap(seed=>[
   makeDistrictArticle(seed,'개인회생',`rehab-${seed.slug}`),
+  makeDistrictBankruptcyArticle(seed,`bankruptcy-${seed.slug}`),
   makeDistrictArticle(seed,'이혼전문변호사',`divorce-${seed.slug}`)
 ]);
 const incheonRehabilitation=articles.filter(a=>a.region==='인천'&&a.category==='이혼전문변호사'&&a.district&&a.dongs).map((a,index)=>makeDistrictArticle({slug:`incheon-${index+1}`,region:'인천',district:a.district!,dongs:a.dongs!},'개인회생',`rehab-incheon-${index+1}`));
@@ -52,7 +69,7 @@ articles.unshift(...bigCityArticles,...incheonRehabilitation);
 
 // 행정구가 없는 경기 도시는 시 단위 글과 동 단위 키워드로 구성합니다.
 const sharedLegalHeroImage='https://our-neighborhood-law-office.netlify.app/images/gyeonggi-legal-consult-hero.svg';
-articles.forEach(article=>{if(article.id.startsWith('rehab-')||article.id.startsWith('divorce-'))article.image=sharedLegalHeroImage;});
+articles.forEach(article=>{if(article.id.startsWith('rehab-')||article.id.startsWith('divorce-')||(article.region==='경기'&&article.id.startsWith('bankruptcy-')))article.image=sharedLegalHeroImage;});
 
 const cityAreaSeeds:DistrictSeed[]=[
   {slug:'gwacheon',region:'경기',district:'과천시',dongs:['중앙동','갈현동','별양동','부림동','과천동','문원동']},
