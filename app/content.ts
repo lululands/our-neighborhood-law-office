@@ -128,10 +128,19 @@ const seoulDistrictSeeds:DistrictSeed[]=[
   {slug:'seoul-jung',region:'서울',district:'중구',dongs:['소공동','회현동','명동','필동','장충동','광희동','을지로동','신당동','다산동','약수동','청구동','신당5동','동화동','황학동','중림동']},
   {slug:'seoul-jungnang',region:'서울',district:'중랑구',dongs:['면목본동','면목2동','면목3·8동','면목4동','면목5동','면목7동','상봉1동','상봉2동','중화1동','중화2동','묵1동','묵2동','망우본동','망우3동','신내1동','신내2동']},
 ];
-const seoulDistrictArticles=seoulDistrictSeeds.flatMap(seed=>[
-  makeCityAreaArticle(seed,'개인회생','rehab-'+seed.slug),
-  makeCityAreaArticle(seed,'이혼전문변호사','divorce-'+seed.slug),
-]);
+// 회생·파산 안내에서는 1·2·3동처럼 같은 생활권으로 묶이는 숫자 행정동을 하나로 표기합니다.
+const mergedDebtDistrictNames=new Set(['송파구','양천구','중랑구','도봉구','종로구','은평구','용산구','영등포구','서대문구','마포구','동작구','강동구','동대문구','노원구','구로구','강서구','강남구']);
+const mergeNumberedDong=(dong:string)=>dong.replace(/(.+)\d+동$/,'$1동');
+const seoulDebtDistrictSeeds=seoulDistrictSeeds.map(seed=>mergedDebtDistrictNames.has(seed.district)
+  ? {...seed,dongs:Array.from(new Set(seed.dongs.map(mergeNumberedDong)))}
+  : seed);
+const seoulDistrictArticles=seoulDistrictSeeds.flatMap(seed=>{
+  const debtSeed=seoulDebtDistrictSeeds.find(x=>x.slug===seed.slug)||seed;
+  return [
+    makeCityAreaArticle(debtSeed,'개인회생','rehab-'+seed.slug),
+    makeCityAreaArticle(seed,'이혼전문변호사','divorce-'+seed.slug),
+  ];
+});
 articles.unshift(...seoulDistrictArticles);
 
 
@@ -158,7 +167,7 @@ const makeSeoulBankruptcyArticle=(seed:DistrictSeed):Article=>{
 아래 동별 표와 태그는 ${seed.district} 개인파산·면책 정보를 찾을 때 활용할 수 있는 키워드입니다. 지역명으로 검색하더라도 실제 상담에서는 채무·재산·소득·가족 상황을 함께 살펴보게 됩니다.`
   };
 };
-const seoulBankruptcyArticles=seoulDistrictSeeds.map(makeSeoulBankruptcyArticle);
+const seoulBankruptcyArticles=seoulDebtDistrictSeeds.map(makeSeoulBankruptcyArticle);
 articles.unshift(...seoulBankruptcyArticles);
 
 const recoveryEconomyArticles:Article[]=[{"id":"recovery-economy-checklist","title":"회생경제: 추가담보대출 상담 전 확인할 담보·상환 계획","category":"회생경제","region":"전국","date":"2026.09.29","excerpt":"추가담보대출 상담을 알아볼 때 담보 종류, 소유 형태, 기존 대출과 상환 계획을 정리하는 방법입니다.","tags":["회생경제","추가담보대출","주택담보대출","전세금담보대출","상가담보대출","사업자담보대출","상환 계획"],"body":"회생경제 정보에서는 채무 정리 전 필요한 생활 금융정보를 차분히 살펴봅니다. 추가담보대출 상담을 검토할 때에는 필요한 자금만큼이나 앞으로의 상환 계획을 먼저 확인하는 것이 중요합니다. 기존 대출의 월 상환액, 고정 지출, 예상 가능한 소득을 함께 적어 보면 감당 가능한 범위를 보다 현실적으로 판단할 수 있습니다.\n\n상담을 신청하기 전에는 상담받을 상품의 종류와 담보물의 유형을 정리해 두면 좋습니다. 주택, 전세금, 상가 등 담보물의 종류와 소유 형태, 기존 담보 설정 여부, 직업·소득 확인 자료는 상담 과정에서 확인될 수 있는 기본 정보입니다. 개인별 신용 상태, 소득, 부채, 담보물의 상태에 따라 조건은 달라질 수 있습니다.\n\n외부 상담폼에 개인정보를 입력하기 전에는 수집 항목과 이용 목적, 제공처를 확인하고 필수 동의 여부를 살펴보세요. 이 글은 일반적인 정보이며, 금리·한도·승인 여부를 보장하지 않습니다. 실제 계약 전에는 금융회사와 계약서의 조건, 중도상환수수료, 연체 시 부담을 반드시 직접 확인해야 합니다."},{"id":"recovery-economy-prepare","title":"회생경제: 상담 신청 전 준비할 정보와 유의사항","category":"회생경제","region":"전국","date":"2026.09.29","excerpt":"담보물 정보와 기존 채무, 개인정보 제공 범위를 확인한 뒤 상담을 신청할 수 있도록 정리했습니다.","tags":["회생경제","추가담보대출 상담","담보대출","기존 대출 확인","개인정보 동의","상환 부담"],"body":"상담 신청 전에는 담보물의 종류와 소유 관계, 기존 대출의 잔액·월 납입액, 필요한 자금의 사용 목적을 한 장으로 정리해 보세요. 여러 금융 조건을 비교할 때에도 매월 갚아야 할 금액과 전체 상환 기간을 함께 보아야 예상하지 못한 부담을 줄일 수 있습니다.\n\n외부 상담폼은 이름과 연락처뿐 아니라 담보물과 직업 관련 정보를 물을 수 있습니다. 본인에게 필요한 항목인지 확인한 뒤, 개인정보 처리방침과 동의 내용을 읽고 직접 판단해 입력해야 합니다. 타인의 정보를 대신 입력하거나 사실과 다른 내용을 적는 것은 피해야 합니다.\n\n추가 자금이 필요한 상황이라도 기존 채무의 상환 흐름을 먼저 점검하는 것이 우선입니다. 실제 이용 가능 여부와 조건은 상담 결과 및 금융회사 심사에 따라 달라질 수 있으며, 이 페이지는 특정 금융상품의 이용을 권유하거나 결과를 보장하지 않습니다."}];
