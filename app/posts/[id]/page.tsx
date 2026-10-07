@@ -5,6 +5,7 @@ import { articles } from '../../content';
 import { isIndexableArticle } from '../../indexing';
 import QuickConsult from '../../quick-consult';
 import SecuredLoanConsult from '../../secured-loan-consult';
+import { recoveryDetails } from '../../recovery-content';
 
 const divorceConsultUrl='https://replyalba.com/intros/_frm/index.php?code=C3Q8SJMSPK';
 const rehabilitationUrl='https://chaemuhelp.co.kr/#consult';
@@ -22,6 +23,7 @@ export default async function Post({params}:{params:Promise<{id:string}>}){
   const {id}=await params;const a=articles.find(x=>x.id===id);if(!a)return notFound();
   const isDivorce=a.category.includes('이혼');
   const isRecoveryEconomy=a.category==='회생경제';
+  const recoveryDetail=isRecoveryEconomy?recoveryDetails[a.id]:undefined;
   const label=a.district?`${a.region} ${a.district} · `:'';
   const keyTitle=isRecoveryEconomy?'회생경제, 상환 계획부터 확인하세요':isDivorce?'이혼소송, 혼자 준비하지 마세요':'개인회생, 현재 상황부터 차분히 정리하세요';
   const keyCopy=isRecoveryEconomy?'생활 금융정보 · 기존 대출 · 상환 부담을 확인합니다':isDivorce?'재산분할 · 양육비 · 양육권 쟁점을 확인합니다':'소득 · 채무 · 재산 · 준비 서류를 확인합니다';
@@ -44,6 +46,13 @@ export default async function Post({params}:{params:Promise<{id:string}>}){
       {isRecoveryEconomy&&<SecuredLoanConsult />}
       {a.image&&<section className="post-hero"><img src={a.image} alt={a.title+' 대표 이미지'}/><div><p>{a.region} {a.district||''} {a.category}</p><strong>{keyTitle}</strong><span>{keyCopy}</span><b>지역별 법률정보</b></div></section>}
       <div className="post-content">{a.body.split('\n\n').map((p,i)=><p key={i}>{p}</p>)}</div>
+      {recoveryDetail&&<section className="recovery-detail">
+        <h2>{recoveryDetail.heading}</h2>
+        <p>{recoveryDetail.summary}</p>
+        <h3>상담 전에 확인할 항목</h3>
+        <ul>{recoveryDetail.checks.map(check=><li key={check}>{check}</li>)}</ul>
+        <p><strong>주의할 점</strong> {recoveryDetail.caution}</p>
+      </section>}
       {a.dongs&&<section className="dong-guide"><h2>{a.region} {a.district} 동 단위 {a.category} 안내</h2><p>동 이름과 함께 {dongKeyword} 키워드를 확인할 수 있습니다.</p><div className="dong-table-wrap"><table><thead><tr><th>동 단위</th><th>{a.category} 키워드</th><th>주요 확인 쟁점</th></tr></thead><tbody>{a.dongs.map(d=><tr key={d}><th>{d}</th><td>{d} {dongKeyword}</td><td>{issues}</td></tr>)}</tbody></table></div></section>}
       {!isRecoveryEconomy&&<section className="publish-panel"><strong>{isDivorce?'이혼 상담이 필요하신가요?':'개인회생 상담이 필요하신가요?'}</strong><p>구체적인 법률 판단과 절차는 개별 사실관계를 바탕으로 확인해야 합니다.</p><a className="primary" href={consultUrl} target="_blank" rel="noopener noreferrer">{consultText}</a></section>}
       {a.tags&&<div className="article-tags">{a.tags.map(tag=><span key={tag}>#{tag}</span>)}</div>}
