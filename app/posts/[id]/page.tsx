@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { articles } from '../../content';
+import { isIndexableArticle } from '../../indexing';
 import QuickConsult from '../../quick-consult';
 import SecuredLoanConsult from '../../secured-loan-consult';
 
@@ -10,8 +11,9 @@ const rehabilitationUrl='https://chaemuhelp.co.kr/#consult';
 
 export async function generateMetadata({params}:{params:Promise<{id:string}>}):Promise<Metadata>{
   const {id}=await params;const a=articles.find(x=>x.id===id);if(!a)return {};
-  const url='https://our-neighborhood-law-office.netlify.app/posts/'+id;
-  return {title:a.title,description:a.excerpt,alternates:{canonical:url},openGraph:{type:'article',title:a.title,description:a.excerpt,url,images:a.image?[{url:a.image,alt:a.title}]:[]}};
+  const url='https://our-neighborhood-law-office.netlify.app/posts/'+id+'/';
+  const index=isIndexableArticle(a);
+  return {title:a.title,description:a.excerpt,alternates:{canonical:url},robots:{index,follow:true},openGraph:{type:'article',title:a.title,description:a.excerpt,url,images:a.image?[{url:a.image,alt:a.title}]:[]}};
 }
 
 export function generateStaticParams(){return articles.map(a=>({id:a.id}))}

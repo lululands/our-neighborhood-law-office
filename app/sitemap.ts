@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { articles } from './content';
+import { isIndexableArticle } from './indexing';
 
 export const dynamic = 'force-static';
 
@@ -13,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 1,
     },
-    ...articles.map((article) => ({
+    ...articles.filter(isIndexableArticle).map((article) => ({
       url: `${origin}/posts/${article.id}/`,
       lastModified: new Date(article.date.replaceAll('.', '-')),
       changeFrequency: 'monthly' as const,
