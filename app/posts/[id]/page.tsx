@@ -13,6 +13,43 @@ const rehabilitationUrl='https://chaemuhelp.co.kr/#consult';
 function articleSeed(value:string){return [...value].reduce((total,char,index)=>total+char.charCodeAt(0)*(index+7),0)}
 function rotate<T>(items:T[],start:number){return items.map((_,index)=>items[(start+index)%items.length])}
 
+const preparationActions=[
+  '최근 12개월의 변화를 월별로 나눠 표시합니다',
+  '사실을 확인할 수 있는 원본과 사본을 따로 보관합니다',
+  '금액·날짜·상대방이 서로 맞는지 자료를 대조합니다',
+  '확인되지 않은 기억은 단정하지 않고 질문 항목으로 남깁니다',
+  '반복 지출과 일회성 지출을 구분해 월평균을 계산합니다',
+  '명의자와 실제 납부자 또는 사용자를 함께 기록합니다',
+  '변동이 생긴 시점과 그 전후 사정을 한 줄씩 덧붙입니다',
+  '상담에서 먼저 확인할 항목과 나중에 보완할 항목을 나눕니다',
+  '계약서·통장·고지서의 기준일을 같은 날짜로 맞춥니다',
+  '누락 가능성이 있는 항목에는 별도 표시를 해 다시 확인합니다',
+  '가족이 대신 납부한 금액은 이체 흐름과 이유를 적어 둡니다',
+  '현재 상황과 과거 상황이 섞이지 않도록 자료 묶음을 분리합니다',
+];
+
+const consultationQuestions=[
+  '현재 자료만으로 먼저 판단할 수 있는 범위는 어디까지인지',
+  '추가 발급이 필요하거나 보완해야 할 서류가 무엇인지',
+  '최근 거래나 소득 변동을 어떤 순서로 설명하면 되는지',
+  '가족 명의 재산·채무와 본인 자료를 어떻게 구분하는지',
+  '예상 일정과 각 단계에서 확인해야 할 기한이 무엇인지',
+  '상담 후에도 원본으로 보관해야 하는 자료가 무엇인지',
+  '광고 문구와 실제 적용 요건 사이에 어떤 차이가 있는지',
+  '현재 진행 중인 독촉·협의·소송에 먼저 대응할 일이 있는지',
+  '비용 안내에 포함되는 범위와 별도 비용 가능성이 무엇인지',
+  '사실관계가 달라질 때 다시 검토해야 하는 항목이 무엇인지',
+  '온라인 사례와 본인 상황을 구분해서 볼 기준이 무엇인지',
+  '상담 전에 정리한 표에서 빠진 항목이 있는지',
+];
+
+const uniqueTasks=[
+  '채무별 최초 발생일', '최근 소득 변동일', '주거비 납부 흐름', '보험 해약환급금',
+  '차량과 예금의 현재가', '가족 간 송금 사유', '임대차보증금 반환 조건', '카드 사용 증가 시점',
+  '부양가족 실제 지출', '담보와 보증 관계', '재산 처분 대금 사용처', '독촉·압류 문서 기한',
+  '사업 매출과 필수비용', '급여 입금과 명세 차이', '교육·의료비 반복 여부', '상담 후 보완할 서류',
+];
+
 function localArticleDetail(a:(typeof articles)[number]){
   const seed=articleSeed(a.id+a.title);
   const district=`${a.region} ${a.district||''}`.trim();
@@ -69,12 +106,30 @@ function localArticleDetail(a:(typeof articles)[number]){
     '같은 지역의 사례라도 결과가 같다고 볼 수 없으므로 절차와 필요 서류는 개별적으로 확인하세요.',
     '상담 전에 중요한 질문 세 가지를 적어 두면 제한된 시간 안에 필요한 내용을 확인하기 좋습니다.',
   ];
+  const topicName=isDivorce?'이혼·재산분할':isBankruptcy?'개인파산·면책':'개인회생·변제계획';
+  const primaryNeighborhood=neighborhoods[0]||a.district||a.region;
+  const secondaryNeighborhood=neighborhoods[1]||primaryNeighborhood;
+  const preparation=rotate(preparationActions,seed%preparationActions.length).slice(0,5).map((action,index)=>
+    `${index%2===0?primaryNeighborhood:secondaryNeighborhood} ${topicName} 자료는 ${action}. ${district} 상담 메모에는 ${records[(seed+index)%records.length]}의 확인 여부를 함께 적어 두세요.`
+  );
+  const questions=rotate(consultationQuestions,(seed*3)%consultationQuestions.length).slice(0,5).map((question,index)=>
+    `${index%2===0?district:primaryNeighborhood} ${topicName} 상담에서 ${question} 질문해 보세요.`
+  );
+  const uniqueChecklist=rotate(uniqueTasks,(seed*5)%uniqueTasks.length).slice(0,12).map((task,index)=>{
+    const place=index%3===0?primaryNeighborhood:index%3===1?secondaryNeighborhood:district;
+    const record=records[(seed+index*2)%records.length];
+    return `${place} ${topicName} 준비: ${task}은 ${primaryNeighborhood} 확인표에 적고, ${record}은 ${district} 상담자료로 구분하세요.`;
+  });
   return {
     intro:`${district}에서 ${a.category} 정보를 찾는다면 ${openings[seed%openings.length]} ${neighborhoodCopy}`,
     process:`먼저 ${records[seed%records.length]}부터 준비하고, 다음으로 ${records[(seed+2)%records.length]}을 확인하세요. 서로 다른 시기의 자료는 최신순이 아니라 사건이 진행된 순서로 배열하면 변화 과정을 설명하기 쉽습니다.`,
     local:`${neighborhoods.length?`${neighborhoods[0]}를 비롯한 ${a.district} 동 단위 검색으로 이 글을 찾았더라도`:district+'에서 정보를 찾았더라도'} 적용 절차와 준비 범위는 개인 상황에 따라 달라질 수 있습니다. ${cautions[(seed+1)%cautions.length]}`,
     checks:rotate(records,seed%records.length),
     caution:cautions[seed%cautions.length],
+    preparation,
+    questions,
+    topicName,
+    uniqueChecklist,
   };
 }
 
@@ -121,6 +176,12 @@ export default async function Post({params}:{params:Promise<{id:string}>}){
         <ul>{localDetail.checks.map(check=><li key={check}>{check}</li>)}</ul>
         <h2>{a.district} 동 단위 정보를 볼 때 주의할 점</h2>
         <p>{localDetail.local}</p>
+        <h2>{a.district} {localDetail.topicName} 준비 순서</h2>
+        <ol>{localDetail.preparation.map(item=><li key={item}>{item}</li>)}</ol>
+        <h2>{a.district} 상담에서 직접 확인할 질문</h2>
+        <ul>{localDetail.questions.map(item=><li key={item}>{item}</li>)}</ul>
+        <h2>{localDetail.topicName} 개별 점검표</h2>
+        <ul>{localDetail.uniqueChecklist.map(item=><li key={item}>{item}</li>)}</ul>
         <p><strong>마지막 확인:</strong> {localDetail.caution}</p>
       </div>:<div className="post-content">{a.body.split('\n\n').map((p,i)=><p key={i}>{p}</p>)}</div>}
       {recoveryDetail&&<section className="recovery-detail">
