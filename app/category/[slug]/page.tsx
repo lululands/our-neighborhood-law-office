@@ -14,7 +14,7 @@ export async function generateMetadata({params}:{params:Promise<{slug:string}>})
   if(!category)return {robots:{index:false,follow:true}};
   const title=`${category.name} 지역별 안내`;
   const description=`${category.name} 상담 전 확인할 절차와 준비 자료를 서울·경기·인천 지역별로 정리했습니다.`;
-  const url=`${origin}/category/${slug}/`;
+  const url=`${origin}/category/${slug}`;
   return {title,description,alternates:{canonical:url},robots:{index:true,follow:true},openGraph:{type:'website',title,description,url}};
 }
 
