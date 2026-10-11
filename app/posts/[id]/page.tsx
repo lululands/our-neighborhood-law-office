@@ -135,7 +135,7 @@ function localArticleDetail(a:(typeof articles)[number]){
 
 export async function generateMetadata({params}:{params:Promise<{id:string}>}):Promise<Metadata>{
   const {id}=await params;const a=articles.find(x=>x.id===id);if(!a)return {};
-  const url='https://our-neighborhood-law-office.netlify.app/posts/'+id+'/';
+  const url='https://our-neighborhood-law-office.netlify.app/posts/'+id;
   const index=isIndexableArticle(a);
   return {title:a.title,description:a.excerpt,alternates:{canonical:url},robots:{index,follow:true},openGraph:{type:'article',title:a.title,description:a.excerpt,url,images:a.image?[{url:a.image,alt:a.title}]:[]}};
 }
@@ -157,14 +157,14 @@ export default async function Post({params}:{params:Promise<{id:string}>}){
   const localDetail=a.dongs?localArticleDetail(a):undefined;
   const category=categories.find(item=>item.name===a.category);
   const related=articles.filter(other=>other.id!==a.id&&isIndexableArticle(other)&&other.category===a.category&&(other.district===a.district||other.region===a.region)).sort((left,right)=>Number(right.district===a.district)-Number(left.district===a.district)).slice(0,6);
-  const articleUrl=`https://our-neighborhood-law-office.netlify.app/posts/${a.id}/`;
+  const articleUrl=`https://our-neighborhood-law-office.netlify.app/posts/${a.id}`;
   const structuredData={
     '@context':'https://schema.org',
     '@graph':[
       {'@type':'Article',headline:a.title,description:a.excerpt,url:articleUrl,mainEntityOfPage:articleUrl,datePublished:a.date.replaceAll('.','-'),dateModified:a.date.replaceAll('.','-'),inLanguage:'ko-KR',author:{'@type':'Organization',name:'우리동네 법률사무소'},publisher:{'@type':'Organization',name:'우리동네 법률사무소'},image:a.image?[a.image]:undefined},
       {'@type':'BreadcrumbList',itemListElement:[
         {'@type':'ListItem',position:1,name:'홈',item:'https://our-neighborhood-law-office.netlify.app/'},
-        {'@type':'ListItem',position:2,name:a.category,item:`https://our-neighborhood-law-office.netlify.app/category/${category?.slug||''}/`},
+        {'@type':'ListItem',position:2,name:a.category,item:`https://our-neighborhood-law-office.netlify.app/category/${category?.slug||''}`},
         {'@type':'ListItem',position:3,name:a.title,item:articleUrl}
       ]}
     ]
