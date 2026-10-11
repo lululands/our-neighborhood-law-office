@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { articles } from '../../content';
+import { articles, categories } from '../../content';
 import { isIndexableArticle } from '../../indexing';
 import QuickConsult from '../../quick-consult';
 import SecuredLoanConsult from '../../secured-loan-consult';
@@ -155,11 +155,26 @@ export default async function Post({params}:{params:Promise<{id:string}>}){
   const consultUrl=isDivorce?divorceConsultUrl:rehabilitationUrl;
   const consultText=isDivorce?'이혼 상담 폼 바로가기':'개인회생 상담 폼 바로가기';
   const localDetail=a.dongs?localArticleDetail(a):undefined;
+  const category=categories.find(item=>item.name===a.category);
+  const related=articles.filter(other=>other.id!==a.id&&isIndexableArticle(other)&&other.category===a.category&&(other.district===a.district||other.region===a.region)).sort((left,right)=>Number(right.district===a.district)-Number(left.district===a.district)).slice(0,6);
+  const articleUrl=`https://our-neighborhood-law-office.netlify.app/posts/${a.id}/`;
+  const structuredData={
+    '@context':'https://schema.org',
+    '@graph':[
+      {'@type':'Article',headline:a.title,description:a.excerpt,url:articleUrl,mainEntityOfPage:articleUrl,datePublished:a.date.replaceAll('.','-'),dateModified:a.date.replaceAll('.','-'),inLanguage:'ko-KR',author:{'@type':'Organization',name:'우리동네 법률사무소'},publisher:{'@type':'Organization',name:'우리동네 법률사무소'},image:a.image?[a.image]:undefined},
+      {'@type':'BreadcrumbList',itemListElement:[
+        {'@type':'ListItem',position:1,name:'홈',item:'https://our-neighborhood-law-office.netlify.app/'},
+        {'@type':'ListItem',position:2,name:a.category,item:`https://our-neighborhood-law-office.netlify.app/category/${category?.slug||''}/`},
+        {'@type':'ListItem',position:3,name:a.title,item:articleUrl}
+      ]}
+    ]
+  };
   return <main>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(structuredData)}} />
     <header className="site-header"><Link className="brand" href="/"><span className="brand-town"><img src="/images/town-tile-roof.svg" alt="" aria-hidden="true"/>우리동네</span><span>법률사무소</span></Link><Link href="/articles">전체 글</Link></header>
     {!isRecoveryEconomy&&<QuickConsult />}
     <article className="post">
-      <p className="breadcrumbs">홈 / {a.region} / {a.category}</p>
+      <p className="breadcrumbs"><Link href="/">홈</Link> / <Link href={`/category/${category?.slug||''}`}>{a.category}</Link> / {a.region} {a.district||''}</p>
       <p className="eyebrow">{label}{a.category}</p>
       <h1>{a.title}</h1>
       <p className="post-meta">발행일 {a.date} · 우리동네 법률사무소</p>
@@ -192,6 +207,7 @@ export default async function Post({params}:{params:Promise<{id:string}>}){
         <p><strong>주의할 점</strong> {recoveryDetail.caution}</p>
       </section>}
       {a.dongs&&<section className="dong-guide"><h2>{a.region} {a.district} 동 단위 {a.category} 안내</h2><p>동 이름과 함께 {dongKeyword} 키워드를 확인할 수 있습니다.</p><div className="dong-table-wrap"><table><thead><tr><th>동 단위</th><th>{a.category} 키워드</th><th>주요 확인 쟁점</th></tr></thead><tbody>{a.dongs.map(d=><tr key={d}><th>{d}</th><td>{d} {dongKeyword}</td><td>{issues}</td></tr>)}</tbody></table></div></section>}
+      {related.length>0&&<section className="related-articles"><div className="latest-head"><div><p className="eyebrow">함께 확인할 안내</p><h2>{a.district||a.region} 관련 글</h2></div><Link href={`/category/${category?.slug||''}`}>분야 전체 보기 →</Link></div><div className="article-list">{related.map(article=><Link className="article-row" href={`/posts/${article.id}`} key={article.id}><div><p>{article.district||article.region} · {article.category}</p><h3>{article.title}</h3></div><b>→</b></Link>)}</div></section>}
       {!isRecoveryEconomy&&<section className="publish-panel"><strong>{isDivorce?'이혼 상담이 필요하신가요?':'개인회생 상담이 필요하신가요?'}</strong><p>구체적인 법률 판단과 절차는 개별 사실관계를 바탕으로 확인해야 합니다.</p><a className="primary" href={consultUrl} target="_blank" rel="noopener noreferrer">{consultText}</a></section>}
       {a.tags&&<div className="article-tags">{a.tags.map(tag=><span key={tag}>#{tag}</span>)}</div>}
     </article>
