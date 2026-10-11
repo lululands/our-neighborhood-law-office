@@ -10,7 +10,7 @@ const cdata=(value:string)=>value.replaceAll(']]>',']]]]><![CDATA[>');
 export function GET(){
   const indexedArticles=articles.filter(isIndexableArticle);
   const items=indexedArticles.map(article=>{
-    const url=`${origin}/posts/${article.id}/`;
+    const url=`${origin}/posts/${article.id}`;
     return `<item><title>${xmlText(article.title)}</title><link>${url}</link><guid isPermaLink="true">${url}</guid><description><![CDATA[${cdata(article.excerpt)}]]></description><content:encoded><![CDATA[${cdata(article.body)}]]></content:encoded><pubDate>${new Date(article.date.replaceAll('.', '-')+'T00:00:00+09:00').toUTCString()}</pubDate></item>`;
   }).join('');
   return new Response(
