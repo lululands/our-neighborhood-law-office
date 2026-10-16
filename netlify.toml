@@ -6,6 +6,12 @@
   NODE_VERSION = "22"
 
 [[redirects]]
+  from = "https://our-neighborhood-law-office.netlify.app/*"
+  to = "https://dongnelaw-guide.netlify.app/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/posts/:id"
   to = "/.netlify/functions/article?id=:id"
   status = 200

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { articles } from '../content';
 import { isIndexableArticle } from '../indexing';
 
-const origin='https://our-neighborhood-law-office.netlify.app';
+const origin='https://dongnelaw-guide.netlify.app';
 
 export const metadata:Metadata={
   title:'전체 지역별 법률 정보',

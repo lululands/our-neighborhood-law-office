@@ -4,7 +4,7 @@ import { articles, categories, regions } from '../../content';
 import { isIndexableArticle } from '../../indexing';
 import QuickConsult from '../../quick-consult';
 
-const origin='https://our-neighborhood-law-office.netlify.app';
+const origin='https://dongnelaw-guide.netlify.app';
 
 export function generateStaticParams(){return regions.map(({slug})=>({slug}))}
 
@@ -15,7 +15,7 @@ export async function generateMetadata({params}:{params:Promise<{slug:string}>})
   const title=`${region.name} 개인회생·개인파산·이혼전문변호사 안내`;
   const description=`${region.name} 지역의 개인회생, 개인파산, 이혼전문변호사 상담 전 확인할 절차와 준비 자료를 안내합니다.`;
   const url=`${origin}/region/${slug}`;
-  return {title,description,alternates:{canonical:url},robots:{index:true,follow:true},openGraph:{type:'website',title,description,url}};
+  return {title,description,alternates:{canonical:url},robots:{index:false,follow:true},openGraph:{type:'website',title,description,url}};
 }
 
 export default async function RegionPage({params}:{params:Promise<{slug:string}>}){

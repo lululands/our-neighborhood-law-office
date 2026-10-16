@@ -9,12 +9,12 @@ import { recoveryDetails } from '../../recovery-content';
 
 const divorceConsultUrl='https://replyalba.com/intros/_frm/index.php?code=C3Q8SJMSPK';
 const rehabilitationUrl='https://chaemuhelp.co.kr/#consult';
-const origin='https://our-neighborhood-law-office.netlify.app';
+const origin='https://dongnelaw-guide.netlify.app';
 
 function articleImage(article:(typeof articles)[number]){
   if(article.category==='개인회생')return `${origin}/images/personal-rehabilitation-thumbnail.svg`;
   if(article.category==='개인파산')return `${origin}/images/personal-bankruptcy-thumbnail.svg`;
-  return article.image;
+  return article.image?.replace('https://our-neighborhood-law-office.netlify.app',origin);
 }
 
 function articleSeed(value:string){return [...value].reduce((total,char,index)=>total+char.charCodeAt(0)*(index+7),0)}
@@ -190,10 +190,11 @@ export async function generateMetadata({params}:{params:Promise<{id:string}>}):P
   return {title:a.title,description:a.excerpt,alternates:{canonical:url},robots:{index,follow:true},openGraph:{type:'article',title:a.title,description:a.excerpt,url,images:image?[{url:image,alt:a.title}]:[]}};
 }
 
-export function generateStaticParams(){return articles.map(a=>({id:a.id}))}
+export const dynamicParams=false;
+export function generateStaticParams(){return articles.filter(isIndexableArticle).map(a=>({id:a.id}))}
 
 export default async function Post({params}:{params:Promise<{id:string}>}){
-  const {id}=await params;const a=articles.find(x=>x.id===id);if(!a)return notFound();
+  const {id}=await params;const a=articles.find(x=>x.id===id);if(!a||!isIndexableArticle(a))return notFound();
   const isDivorce=a.category.includes('이혼');
   const isBankruptcy=a.category==='개인파산';
   const isDebt=a.category==='개인회생'||isBankruptcy;
@@ -210,14 +211,14 @@ export default async function Post({params}:{params:Promise<{id:string}>}){
   const localDetail=a.dongs?localArticleDetail(a):undefined;
   const category=categories.find(item=>item.name===a.category);
   const related=articles.filter(other=>other.id!==a.id&&isIndexableArticle(other)&&other.category===a.category&&(other.district===a.district||other.region===a.region)).sort((left,right)=>Number(right.district===a.district)-Number(left.district===a.district)).slice(0,6);
-  const articleUrl=`https://our-neighborhood-law-office.netlify.app/posts/${a.id}`;
+  const articleUrl=`${origin}/posts/${a.id}`;
   const structuredData={
     '@context':'https://schema.org',
     '@graph':[
       {'@type':'Article',headline:a.title,description:a.excerpt,url:articleUrl,mainEntityOfPage:articleUrl,datePublished:a.date.replaceAll('.','-'),dateModified:a.date.replaceAll('.','-'),inLanguage:'ko-KR',author:{'@type':'Organization',name:'우리동네 법률사무소'},publisher:{'@type':'Organization',name:'우리동네 법률사무소'},image:image?[image]:undefined},
       {'@type':'BreadcrumbList',itemListElement:[
-        {'@type':'ListItem',position:1,name:'홈',item:'https://our-neighborhood-law-office.netlify.app/'},
-        {'@type':'ListItem',position:2,name:a.category,item:`https://our-neighborhood-law-office.netlify.app/category/${category?.slug||''}`},
+        {'@type':'ListItem',position:1,name:'홈',item:`${origin}/`},
+        {'@type':'ListItem',position:2,name:a.category,item:`${origin}/category/${category?.slug||''}`},
         {'@type':'ListItem',position:3,name:a.title,item:articleUrl}
       ]}
     ]
@@ -267,4 +268,3 @@ export default async function Post({params}:{params:Promise<{id:string}>}){
     </article>
   </main>;
 }
-

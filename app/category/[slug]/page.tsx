@@ -4,7 +4,7 @@ import { articles, categories } from '../../content';
 import { isIndexableArticle } from '../../indexing';
 import QuickConsult from '../../quick-consult';
 
-const origin='https://our-neighborhood-law-office.netlify.app';
+const origin='https://dongnelaw-guide.netlify.app';
 
 export function generateStaticParams(){return categories.map(({slug})=>({slug}))}
 

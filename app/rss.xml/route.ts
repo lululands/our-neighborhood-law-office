@@ -3,7 +3,7 @@ import { isIndexableArticle } from '../indexing';
 
 export const dynamic='force-static';
 
-const origin='https://our-neighborhood-law-office.netlify.app';
+const origin='https://dongnelaw-guide.netlify.app';
 const xmlText=(value:string)=>value.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&apos;");
 const cdata=(value:string)=>value.replaceAll(']]>',']]]]><![CDATA[>');
 
