@@ -9,6 +9,13 @@ import { recoveryDetails } from '../../recovery-content';
 
 const divorceConsultUrl='https://replyalba.com/intros/_frm/index.php?code=C3Q8SJMSPK';
 const rehabilitationUrl='https://chaemuhelp.co.kr/#consult';
+const origin='https://our-neighborhood-law-office.netlify.app';
+
+function articleImage(article:(typeof articles)[number]){
+  if(article.category==='개인회생')return `${origin}/images/personal-rehabilitation-thumbnail.svg`;
+  if(article.category==='개인파산')return `${origin}/images/personal-bankruptcy-thumbnail.svg`;
+  return article.image;
+}
 
 function articleSeed(value:string){return [...value].reduce((total,char,index)=>total+char.charCodeAt(0)*(index+7),0)}
 function rotate<T>(items:T[],start:number){return items.map((_,index)=>items[(start+index)%items.length])}
@@ -120,6 +127,48 @@ function localArticleDetail(a:(typeof articles)[number]){
     const record=records[(seed+index*2)%records.length];
     return `${place} ${topicName} 준비: ${task}은 ${primaryNeighborhood} 확인표에 적고, ${record}은 ${district} 상담자료로 구분하세요.`;
   });
+  if(isBankruptcy&&a.district==='강서구')return {
+    intro:'서울 강서구에서 개인파산·면책을 알아본다면 채무 총액만 적기보다 소득이 줄어든 시점, 최근 대출 사용처, 보유 재산의 현재 상태를 서로 다른 표로 나눠 확인해 보세요. 염창동·등촌동·화곡동·가양동·방화동처럼 생활권이 달라도 법원의 판단 기준이 달라지는 것은 아니므로 주소보다 본인의 자료를 빠짐없이 정리하는 일이 우선입니다.',
+    process:'급여·사업·일용 소득이 함께 있었다면 입금 내역을 소득원별로 나누고, 폐업이나 퇴직이 있었다면 그 전후의 매출·급여 변화를 월별로 표시하세요. 이후 임대차보증금, 예금, 보험 해약환급금, 차량과 부동산 자료를 같은 기준일로 맞춘 뒤 채권자별 원금·이자·보증 여부와 대조하면 누락을 줄일 수 있습니다.',
+    local:'강서구 개인파산 검색으로 이 글을 찾았더라도 면책 가능성은 지역명이 아니라 채무 발생 경위, 현재 소득, 재산 변동, 가족의 실제 부양 상황 등에 따라 달라질 수 있습니다. 최근 가족 간 송금이나 재산 처분이 있다면 임의로 제외하지 말고 날짜·금액·이유와 확인 자료를 함께 정리하세요.',
+    checks:[
+      '채권자별 잔액·연체 시작일·보증 여부를 확인한 채무 목록',
+      '급여·사업·일용 소득과 폐업·퇴직 전후 변화를 보여 주는 자료',
+      '임대차보증금·예금·보험 해약환급금·차량·부동산 자료',
+      '최근 대출 사용처와 재산 처분·명의 변경·가족 간 송금 내역',
+      '주거비·의료비·부양비 등 현재 생활에 필요한 반복 지출 자료',
+    ],
+    caution:'온라인 사례나 지역명만으로 결과를 예상하지 말고, 확인되지 않은 항목은 질문 목록으로 남겨 개별 상담에서 점검하세요.',
+    preparation:[
+      '채무 목록은 카드·대출·보증 채무로 나누고 최초 발생일과 최근 잔액을 함께 적습니다.',
+      '소득 자료는 급여·사업·일용 소득을 섞지 말고 중단되거나 감소한 시점을 표시합니다.',
+      '재산 자료는 임대차보증금과 보험 해약환급금을 포함해 같은 기준일의 금액으로 맞춥니다.',
+      '최근 대출과 큰 금액의 송금·인출은 사용처를 확인할 수 있는 자료와 연결합니다.',
+      '부양가족의 생활비는 실제 납부 내역을 중심으로 월평균을 계산합니다.',
+    ],
+    questions:[
+      '강서구 개인파산 상담에서 현재 소득 감소를 설명할 추가 자료가 무엇인지 질문해 보세요.',
+      '폐업·퇴직 전후의 채무 증가와 지출 내역을 어떤 순서로 제출할지 확인해 보세요.',
+      '임대차보증금과 보험 해약환급금이 재산 평가에 어떻게 반영되는지 확인해 보세요.',
+      '최근 가족 간 송금이나 재산 처분에 보완할 소명 자료가 있는지 질문해 보세요.',
+      '면책 심사 전까지 계속 보관해야 할 원본 자료와 예상 일정을 확인해 보세요.',
+    ],
+    topicName,
+    uniqueChecklist:[
+      '염창동·등촌동 생활권: 임대차 계약과 보증금 반환 조건을 확인합니다.',
+      '화곡동·우장산동 생활권: 급여·사업 소득의 중단 시점과 고정지출을 구분합니다.',
+      '가양동·발산동 생활권: 보험·차량·예금의 현재가와 담보 여부를 확인합니다.',
+      '공항동·방화동 생활권: 일용·교대·복수 소득이 있다면 입금 흐름을 나눠 정리합니다.',
+      '최근 12개월의 대출·카드 사용 증가 시점과 사용처를 월별로 표시합니다.',
+      '채무별 원금·이자·연체 시작일·보증 관계를 한 표에서 대조합니다.',
+      '가족이 대신 납부한 주거비·생활비는 이체 흐름과 이유를 기록합니다.',
+      '재산 처분 대금은 입금일부터 사용 완료일까지 흐름을 연결합니다.',
+      '독촉·압류·소송 문서는 받은 날짜와 답변 기한을 함께 적습니다.',
+      '의료비·교육비·부양비는 일회성 지출과 반복 지출을 구분합니다.',
+      '확인되지 않은 오래된 채무도 임의로 빼지 말고 별도 표시합니다.',
+      '상담 후 보완할 서류와 원본으로 보관할 자료를 따로 분류합니다.',
+    ],
+  };
   return {
     intro:`${district}에서 ${a.category} 정보를 찾는다면 ${openings[seed%openings.length]} ${neighborhoodCopy}`,
     process:`먼저 ${records[seed%records.length]}부터 준비하고, 다음으로 ${records[(seed+2)%records.length]}을 확인하세요. 서로 다른 시기의 자료는 최신순이 아니라 사건이 진행된 순서로 배열하면 변화 과정을 설명하기 쉽습니다.`,
@@ -135,9 +184,10 @@ function localArticleDetail(a:(typeof articles)[number]){
 
 export async function generateMetadata({params}:{params:Promise<{id:string}>}):Promise<Metadata>{
   const {id}=await params;const a=articles.find(x=>x.id===id);if(!a)return {};
-  const url='https://our-neighborhood-law-office.netlify.app/posts/'+id;
+  const url=origin+'/posts/'+id;
   const index=isIndexableArticle(a);
-  return {title:a.title,description:a.excerpt,alternates:{canonical:url},robots:{index,follow:true},openGraph:{type:'article',title:a.title,description:a.excerpt,url,images:a.image?[{url:a.image,alt:a.title}]:[]}};
+  const image=articleImage(a);
+  return {title:a.title,description:a.excerpt,alternates:{canonical:url},robots:{index,follow:true},openGraph:{type:'article',title:a.title,description:a.excerpt,url,images:image?[{url:image,alt:a.title}]:[]}};
 }
 
 export function generateStaticParams(){return articles.map(a=>({id:a.id}))}
@@ -145,13 +195,16 @@ export function generateStaticParams(){return articles.map(a=>({id:a.id}))}
 export default async function Post({params}:{params:Promise<{id:string}>}){
   const {id}=await params;const a=articles.find(x=>x.id===id);if(!a)return notFound();
   const isDivorce=a.category.includes('이혼');
+  const isBankruptcy=a.category==='개인파산';
+  const isDebt=a.category==='개인회생'||isBankruptcy;
   const isRecoveryEconomy=a.category==='회생경제';
+  const image=articleImage(a);
   const recoveryDetail=isRecoveryEconomy?recoveryDetails[a.id]:undefined;
   const label=a.district?`${a.region} ${a.district} · `:'';
-  const keyTitle=isRecoveryEconomy?'회생경제, 상환 계획부터 확인하세요':isDivorce?'이혼소송, 혼자 준비하지 마세요':'개인회생, 현재 상황부터 차분히 정리하세요';
-  const keyCopy=isRecoveryEconomy?'생활 금융정보 · 기존 대출 · 상환 부담을 확인합니다':isDivorce?'재산분할 · 양육비 · 양육권 쟁점을 확인합니다':'소득 · 채무 · 재산 · 준비 서류를 확인합니다';
-  const dongKeyword=isDivorce?'이혼전문변호사 · 이혼소송변호사':'개인회생 · 개인회생상담';
-  const issues=isDivorce?'재산분할 · 양육비 · 양육권':'채무 · 소득 · 재산 · 변제계획';
+  const keyTitle=isRecoveryEconomy?'회생경제, 상환 계획부터 확인하세요':isDivorce?'이혼소송, 혼자 준비하지 마세요':isBankruptcy?'개인파산·면책, 자료부터 정확히 확인하세요':'개인회생, 현재 상황부터 차분히 정리하세요';
+  const keyCopy=isRecoveryEconomy?'생활 금융정보 · 기존 대출 · 상환 부담을 확인합니다':isDivorce?'재산분할 · 양육비 · 양육권 쟁점을 확인합니다':isBankruptcy?'채무 · 재산 · 소득 · 면책 절차를 확인합니다':'소득 · 채무 · 재산 · 준비 서류를 확인합니다';
+  const dongKeyword=isDivorce?'이혼전문변호사 · 이혼소송변호사':isBankruptcy?'개인파산 · 면책상담':'개인회생 · 개인회생상담';
+  const issues=isDivorce?'재산분할 · 양육비 · 양육권':isBankruptcy?'채무 · 재산 · 소득 · 면책절차':'채무 · 소득 · 재산 · 변제계획';
   const consultUrl=isDivorce?divorceConsultUrl:rehabilitationUrl;
   const consultText=isDivorce?'이혼 상담 폼 바로가기':'개인회생 상담 폼 바로가기';
   const localDetail=a.dongs?localArticleDetail(a):undefined;
@@ -161,7 +214,7 @@ export default async function Post({params}:{params:Promise<{id:string}>}){
   const structuredData={
     '@context':'https://schema.org',
     '@graph':[
-      {'@type':'Article',headline:a.title,description:a.excerpt,url:articleUrl,mainEntityOfPage:articleUrl,datePublished:a.date.replaceAll('.','-'),dateModified:a.date.replaceAll('.','-'),inLanguage:'ko-KR',author:{'@type':'Organization',name:'우리동네 법률사무소'},publisher:{'@type':'Organization',name:'우리동네 법률사무소'},image:a.image?[a.image]:undefined},
+      {'@type':'Article',headline:a.title,description:a.excerpt,url:articleUrl,mainEntityOfPage:articleUrl,datePublished:a.date.replaceAll('.','-'),dateModified:a.date.replaceAll('.','-'),inLanguage:'ko-KR',author:{'@type':'Organization',name:'우리동네 법률사무소'},publisher:{'@type':'Organization',name:'우리동네 법률사무소'},image:image?[image]:undefined},
       {'@type':'BreadcrumbList',itemListElement:[
         {'@type':'ListItem',position:1,name:'홈',item:'https://our-neighborhood-law-office.netlify.app/'},
         {'@type':'ListItem',position:2,name:a.category,item:`https://our-neighborhood-law-office.netlify.app/category/${category?.slug||''}`},
@@ -183,7 +236,8 @@ export default async function Post({params}:{params:Promise<{id:string}>}){
         <div className="article-consult-fields"><a href={consultUrl} target="_blank" rel="noopener noreferrer">{isDivorce?'비대면·비밀 무료상담':'비대면 채무 무료상담'}</a></div>
       </section>}
       {isRecoveryEconomy&&<SecuredLoanConsult />}
-      {a.image&&<section className="post-hero"><img src={a.image} alt={a.title+' 대표 이미지'}/><div><p>{a.region} {a.district||''} {a.category}</p><strong>{keyTitle}</strong><span>{keyCopy}</span><b>지역별 법률정보</b></div></section>}
+      {image&&!isDebt&&<section className="post-hero"><img src={image} alt={a.title+' 대표 이미지'}/><div><p>{a.region} {a.district||''} {a.category}</p><strong>{keyTitle}</strong><span>{keyCopy}</span><b>지역별 법률정보</b></div></section>}
+      {image&&isDebt&&<figure className="post-content-thumbnail"><img src={image} alt={`${a.region} ${a.district||''} ${a.category} 법률정보 대표 이미지`}/></figure>}
       {localDetail?<div className="post-content local-detail">
         <p>{localDetail.intro}</p>
         <h2>{a.region} {a.district} 상담 전 자료 정리 순서</h2>
@@ -213,3 +267,4 @@ export default async function Post({params}:{params:Promise<{id:string}>}){
     </article>
   </main>;
 }
+
